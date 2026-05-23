@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wajbati - Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green-deep: #1a4a1e;
+  --green-mid: #2d7a35;
+  --green-light: #5cb85c;
+  --green-pale: #e8f5e9;
+  --cream: #faf8f3;
+  --warm-white: #ffffff;
+  --text-dark: #1a1a1a;
+  --text-mid: #4a5568;
+  --gold: #c9a84c;
+  --leaf1: #6bcb77;
+  --leaf2: #3d9e4a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ─── ANIMATED BG PARTICLES ─── */
+.bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.leaf {
+  position: absolute;
+  opacity: 0.12;
+  animation: floatLeaf linear infinite;
+  font-size: 24px;
+  user-select: none;
+}
+
+@keyframes floatLeaf {
+  0%   { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+  10%  { opacity: 0.15; }
+  90%  { opacity: 0.1; }
+  100% { transform: translateY(-10vh) rotate(360deg) scale(1.1); opacity: 0; }
+}
+
+/* ─── NAVBAR ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 60px;
+  background: rgba(250, 248, 243, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(93, 184, 92, 0.15);
+  transition: all 0.3s;
+}
+
+nav.scrolled {
+  padding: 12px 60px;
+  box-shadow: 0 4px 30px rgba(26, 74, 30, 0.08);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--green-deep);
+  letter-spacing: -0.5px;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, var(--leaf1), var(--green-deep));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-mid);
+  padding: 8px 18px;
+  border-radius: 50px;
+  transition: all 0.25s;
+}
+
+.nav-links a:hover {
+  color: var(--green-deep);
+  background: var(--green-pale);
+}
+
+.nav-links .btn-nav {
+  background: var(--green-deep);
+  color: white;
+  padding: 9px 22px;
+}
+
+.nav-links .btn-nav:hover {
+  background: var(--green-mid);
+  color: white;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--green-deep) 0%, #2d5a32 45%, #4a8c52 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 20px 80px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: orbPulse 6s ease-in-out infinite alternate;
+}
+
+.orb1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(107, 203, 119, 0.25), transparent);
+  top: -100px; right: -100px;
+}
+
+.orb2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.15), transparent);
+  bottom: -80px; left: -80px;
+  animation-delay: -3s;
+}
+
+@keyframes orbPulse {
+  0%   { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.2) translate(20px, -20px); }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.9);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 18px;
+  border-radius: 50px;
+  margin-bottom: 28px;
+  backdrop-filter: blur(8px);
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 6vw, 72px);
+  color: white;
+  line-height: 1.12;
+  margin-bottom: 22px;
+  animation: fadeUp 0.9s ease 0.1s both;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hero p {
+  font-size: 18px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.7;
+  margin-bottom: 44px;
+  animation: fadeUp 1s ease 0.2s both;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 1s ease 0.3s both;
+}
+
+.btn-primary {
+  padding: 15px 36px;
+  background: white;
+  color: var(--green-deep);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.25);
+}
+
+.btn-secondary {
+  padding: 15px 36px;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 50px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.25);
+  transition: all 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-3px);
+}
+
+/* hero stats */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 60px;
+  animation: fadeUp 1s ease 0.4s both;
+}
+
+.stat { text-align: center; }
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: white;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 2px;
+}
+
+/* scroll arrow */
+.scroll-hint {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  animation: bounce 2s ease infinite;
+  z-index: 2;
+}
+
+.scroll-hint::after {
+  content: '↓';
+  font-size: 20px;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ─── MAIN CONTENT ─── */
+.main {
+  background: var(--cream);
+  position: relative;
+  z-index: 2;
+}
+
+.section-intro {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-tag {
+  display: inline-block;
+  background: var(--green-pale);
+  color: var(--green-mid);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 50px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--green-deep);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.section-sub {
+  color: var(--text-mid);
+  font-size: 16px;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* ─── FEATURES ─── */
+.features-section {
+  padding: 100px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 24px;
+  padding: 36px 28px;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--leaf1), var(--green-deep));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px rgba(26, 74, 30, 0.12);
+  border-color: rgba(93, 184, 92, 0.2);
+}
+
+.feature-card:hover::before {
+  transform: scaleX(1);
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--green-pale), #c8e6c9);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.65;
+}
+
+/* ─── NUTRITIONISTS ─── */
+.nutritionists-section {
+  padding: 80px 40px 100px;
+  background: linear-gradient(180deg, var(--cream) 0%, #f0f7ee 100%);
+}
+
+.nutritionists-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  margin-top: 50px;
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: all 0.35s;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 24px 50px rgba(26, 74, 30, 0.14);
+}
+
+.card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover img {
+  transform: scale(1.06);
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26,74,30,0.6) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card:hover .card-overlay {
+  opacity: 1;
+}
+
+.card-body {
+  padding: 22px 24px;
+}
+
+.card-body h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--green-deep);
+  margin-bottom: 4px;
+}
+
+.card-body p {
+  font-size: 13px;
+  color: var(--text-mid);
+}
+
+.card-tag {
+  display: inline-block;
+  background: var(--green-pale);
+  color: var(--green-mid);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 50px;
+  margin-top: 8px;
+}
+
+/* ─── REVIEWS ─── */
+.reviews-section {
+  padding: 100px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 24px;
+  margin-top: 50px;
+}
+
+.review {
+  background: white;
+  border-radius: 24px;
+  padding: 32px 28px;
+  border: 1px solid rgba(0,0,0,0.06);
+  position: relative;
+  transition: all 0.3s;
+}
+
+.review:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(26,74,30,0.1);
+}
+
+.review-quote {
+  font-size: 48px;
+  font-family: 'Playfair Display', serif;
+  color: var(--green-pale);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.review p {
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.review-author {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--leaf1), var(--green-deep));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.author-name {
+  font-weight: 600;
+  color: var(--green-deep);
+  font-size: 14px;
+}
+
+.stars {
+  color: var(--gold);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--green-deep);
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+footer .footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.logo { cursor: pointer; }
+
+/* ─── PRICING ─── */
+.pricing-section {
+  padding: 100px 40px;
+  background: linear-gradient(180deg, #f0f7ee 0%, var(--cream) 100%);
+}
+
+.pricing-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pricing-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 36px;
+  margin-bottom: 50px;
+}
+
+.toggle-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-mid);
+  transition: color 0.25s;
+}
+
+.toggle-label.active { color: var(--green-deep); font-weight: 600; }
+
+.toggle-switch {
+  position: relative;
+  width: 52px; height: 28px;
+  background: var(--green-mid);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 22px; height: 22px;
+  background: white;
+  border-radius: 50%;
+  top: 3px; left: 3px;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.toggle-switch.three-month::after {
+  transform: translateX(24px);
+}
+
+.save-badge {
+  background: var(--gold);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.price-card {
+  background: white;
+  border-radius: 28px;
+  padding: 36px 30px;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  cursor: pointer;
+}
+
+.price-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--green-pale), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.price-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(93,184,92,0.35);
+  box-shadow: 0 28px 60px rgba(26,74,30,0.14);
+}
+
+.price-card:hover::before { opacity: 1; }
+
+.price-card.premium {
+  background: linear-gradient(160deg, var(--green-deep) 0%, #2d5a32 100%);
+  border-color: var(--gold);
+}
+
+.price-card.premium::before {
+  background: linear-gradient(135deg, rgba(201,168,76,0.1), transparent 60%);
+  opacity: 1;
+}
+
+.price-card.premium:hover {
+  border-color: var(--gold);
+  box-shadow: 0 28px 60px rgba(26,74,30,0.3);
+}
+
+.popular-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: var(--gold);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.price-card-icon {
+  width: 52px; height: 52px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.price-card .price-card-icon {
+  background: var(--green-pale);
+}
+
+.price-card.premium .price-card-icon {
+  background: rgba(255,255,255,0.12);
+}
+
+.price-tier {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green-mid);
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.price-card.premium .price-tier { color: var(--gold); }
+
+.price-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--green-deep);
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.price-card.premium .price-name { color: white; }
+
+.price-duration {
+  font-size: 13px;
+  color: var(--text-mid);
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.price-card.premium .price-duration { color: rgba(255,255,255,0.6); }
+
+.price-amount {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.price-currency {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--green-mid);
+  margin-bottom: 6px;
+}
+
+.price-card.premium .price-currency { color: rgba(255,255,255,0.7); }
+
+.price-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--green-deep);
+  line-height: 1;
+}
+
+.price-card.premium .price-number { color: white; }
+
+.price-period {
+  font-size: 14px;
+  color: var(--text-mid);
+  margin-bottom: 7px;
+}
+
+.price-card.premium .price-period { color: rgba(255,255,255,0.6); }
+
+.price-features {
+  list-style: none;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.price-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.4;
+}
+
+.price-card.premium .price-features li { color: rgba(255,255,255,0.8); }
+
+.feat-check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--green-pale);
+  color: var(--green-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.price-card.premium .feat-check {
+  background: rgba(255,255,255,0.15);
+  color: var(--gold);
+}
+
+.price-btn {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  border-radius: 14px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s;
+  position: relative;
+  border: none;
+  cursor: pointer;
+}
+
+.price-card:not(.premium) .price-btn {
+  background: var(--green-pale);
+  color: var(--green-deep);
+  border: 2px solid rgba(45,122,53,0.2);
+}
+
+.price-card:not(.premium) .price-btn:hover {
+  background: var(--green-mid);
+  color: white;
+  border-color: var(--green-mid);
+}
+
+.price-card.premium .price-btn {
+  background: var(--gold);
+  color: white;
+}
+
+.price-card.premium .price-btn:hover {
+  background: #b8942e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(201,168,76,0.4);
+}
+
+.price-3month { display: none; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── MOBILE ─── */
+@media(max-width: 768px) {
+  nav { padding: 16px 24px; }
+  nav.scrolled { padding: 12px 24px; }
+  .hero-stats { gap: 28px; }
+  .stat-number { font-size: 24px; }
+  .features-section, .nutritionists-section, .reviews-section, .pricing-section { padding: 60px 20px; }
+}
+
+@media(max-width: 480px) {
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+  .hero-cta { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating Leaves Background -->
+<div class="bg-canvas" id="bgCanvas"></div>
+
+<nav id="navbar">
+  <a href="/" class="logo" style="text-decoration:none;">
+    <div class="logo-icon">🍏</div>
+    Wajbati
+  </a>
+  <div class="nav-links">
+    <a href="login">Login</a>
+    <a href="signup" class="btn-nav">Get Started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">✨ AI-Powered Nutrition Platform</div>
+
+    <h1>Eat <em>Smarter</em>,<br>Live Better</h1>
+
+    <p>Track your calories with AI, follow personalized nutrition plans,<br>
+    and consult professional nutritionists — all in one place.</p>
+
+    <div class="hero-cta">
+      <a class="btn-primary" href="signup">Start Your Journey →</a>
+      <a class="btn-secondary" href="login">I have an account</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number">10k+</div>
+        <div class="stat-label">Active Users</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">95%</div>
+        <div class="stat-label">Success Rate</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Nutritionists</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<div class="main">
+
+  <!-- FEATURES -->
+  <section class="features-section">
+    <div class="section-intro reveal">
+      <div class="section-tag">Features</div>
+      <h2 class="section-title">Everything you need to<br>transform your health</h2>
+      <p class="section-sub">Science-backed tools designed to make healthy living simple, personal, and sustainable.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">📸</div>
+        <h3>AI Calorie Detection</h3>
+        <p>Upload your meal photo and estimate calories instantly using our intelligent AI model.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🥗</div>
+        <h3>Diet Programs</h3>
+        <p>Personalized diet plans adapted to your health profile, goals, and food preferences.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🎥</div>
+        <h3>Online Consultations</h3>
+        <p>Book video calls with professional nutritionists from the comfort of your home.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">📊</div>
+        <h3>Progress Tracking</h3>
+        <p>Track your weight and nutrition progress with beautiful, easy-to-read charts.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUTRITIONISTS -->
+  <section class="nutritionists-section">
+    <div class="nutritionists-inner">
+      <div class="section-intro reveal">
+        <div class="section-tag">Our Team</div>
+        <h2 class="section-title">Meet Our Nutritionists</h2>
+        <p class="section-sub">Certified professionals ready to guide you on your wellness journey.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card reveal">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2" alt="Dr. Sarah Ahmed">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-body">
+            <h4>Dr. Sarah Ahmed</h4>
+            <p>Clinical Nutritionist</p>
+            <span class="card-tag">Clinical Nutrition</span>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d" alt="Dr. Lina Haddad">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-body">
+            <h4>Dr. Lina Haddad</h4>
+            <p>Weight Loss Specialist</p>
+            <span class="card-tag">Weight Management</span>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" alt="Dr. Omar Khaled">
+            <div class="card-overlay"></div>
+          </div>
+          <div class="card-body">
+            <h4>Dr. Omar Khaled</h4>
+            <p>Sports Nutrition</p>
+            <span class="card-tag">Sports & Performance</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section">
+    <div class="section-intro reveal">
+      <div class="section-tag">Testimonials</div>
+      <h2 class="section-title">Real results,<br>real people</h2>
+    </div>
+
+    <div class="review-grid">
+      <div class="review reveal">
+        <div class="review-quote">"</div>
+        <p>This platform helped me lose 8kg in 3 months. The diet plan was amazing and very easy to follow!</p>
+        <div class="review-author">
+          <div class="author-avatar">A</div>
+          <div>
+            <div class="author-name">Amina B.</div>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review reveal">
+        <div class="review-quote">"</div>
+        <p>The AI calorie detection is very useful when eating outside. I just snap a photo and I'm done.</p>
+        <div class="review-author">
+          <div class="author-avatar">K</div>
+          <div>
+            <div class="author-name">Karim M.</div>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review reveal">
+        <div class="review-quote">"</div>
+        <p>My nutritionist was very supportive and professional. I finally feel in control of my health.</p>
+        <div class="review-author">
+          <div class="author-avatar">N</div>
+          <div>
+            <div class="author-name">Nadia L.</div>
+            <div class="stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING PACKS -->
+<!-- PRICING PACKS -->
+  <section class="pricing-section">
+    <div class="pricing-inner">
+      <div class="section-intro reveal">
+        <div class="section-tag">Pricing</div>
+        <h2 class="section-title">Choose your<br><em style="font-style:italic;color:var(--green-mid);">wellness plan</em></h2>
+        <p class="section-sub">Simple, transparent pricing. No hidden fees. Cancel anytime.</p>
+      </div>
+
+      <div class="pricing-toggle">
+        <span class="toggle-label active" id="lbl1month">1 Month</span>
+        <button class="toggle-switch" id="durationToggle" aria-label="Toggle duration"></button>
+        <span class="toggle-label" id="lbl3month">3 Months</span>
+        <span class="save-badge">Save 20%</span>
+      </div>
+
+      <div class="pricing-grid">
+        
+        <!-- BASIC (Always Visible) -->
+        <div class="price-card reveal" onclick="location.href='/signupba'">
+          <div class="price-card-icon">⚡</div>
+          <div class="price-tier">Flex</div>
+          <div class="price-name">Basic</div>
+          <div class="price-duration">Pay as you use</div>
+          <div class="price-amount">
+            <span class="price-currency">DZD</span>
+            <span class="price-number">0</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <ul class="price-features">
+            <li><span class="feat-check">✓</span> AI calorie tracking (2 times a day)</li>
+            <li><span class="feat-check">✓</span> Community access</li>
+            <li><span class="feat-check">✕</span> No diet program</li>
+            <li><span class="feat-check">✕</span> Paid consultations</li>
+          </ul>
+          <a href="/signupba" class="price-btn">Start for Free</a>
+        </div>
+
+        <!-- NORMAL 1 MONTH -->
+        <div class="price-card reveal price-1month" onclick="location.href='/signup'">
+          <div class="price-card-icon">🌱</div>
+          <div class="price-tier">Normal</div>
+          <div class="price-name">Essential</div>
+          <div class="price-duration">1 Month Plan</div>
+          <div class="price-amount">
+            <span class="price-currency">DZD</span>
+            <span class="price-number">1,500</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <ul class="price-features">
+            <li><span class="feat-check">✓</span> Personalized diet program</li>
+            <li><span class="feat-check">✓</span> AI calorie tracking</li>
+            <li><span class="feat-check">✓</span> <strong>1 meeting weekly</strong></li>
+            <li><span class="feat-check">✓</span> Progress dashboard</li>
+          </ul>
+          <a href="/signup" class="price-btn">Get Started →</a>
+        </div>
+
+        <!-- PREMIUM 1 MONTH -->
+        <div class="price-card premium reveal price-1month" onclick="location.href='/signup'">
+          <div class="popular-badge">⭐ Popular</div>
+          <div class="price-card-icon">👑</div>
+          <div class="price-tier">Premium</div>
+          <div class="price-name">Elite</div>
+          <div class="price-duration">1 Month Plan</div>
+          <div class="price-amount">
+            <span class="price-currency">DZD</span>
+            <span class="price-number">2,800</span>
+            <span class="price-period">/mo</span>
+          </div>
+          <ul class="price-features">
+            <li><span class="feat-check">✓</span> All "Essential" features</li>
+            <li><span class="feat-check">✓</span> <strong>3 meetings weekly</strong></li>
+            <li><span class="feat-check">✓</span> ChefBot AI access</li>
+            <li><span class="feat-check">✓</span> Specialist supervision</li>
+            <li><span class="feat-check">✓</span> Priority support</li>
+          </ul>
+          <a href="/signup" class="price-btn">Go Premium →</a>
+        </div>
+
+        <!-- NORMAL 3 MONTHS -->
+        <div class="price-card reveal price-3month" onclick="location.href='/signup'">
+          <div class="price-card-icon">🌿</div>
+          <div class="price-tier">Normal</div>
+          <div class="price-name">Essential</div>
+          <div class="price-duration">3 Month Plan</div>
+          <div class="price-amount">
+            <span class="price-currency">DZD</span>
+            <span class="price-number">3,600</span>
+            <span class="price-period">/3mo</span>
+          </div>
+          <ul class="price-features">
+            <li><span class="feat-check">✓</span> Personalized diet program</li>
+            <li><span class="feat-check">✓</span> AI calorie tracking</li>
+            <li><span class="feat-check">✓</span> <strong>1 meeting weekly</strong></li>
+            <li><span class="feat-check">✓</span> Save 20% vs monthly</li>
+          </ul>
+          <a href="/signup" class="price-btn">Get Started →</a>
+        </div>
+
+        <!-- PREMIUM 3 MONTHS -->
+        <div class="price-card premium reveal price-3month" onclick="location.href='/signup'">
+          <div class="popular-badge">⭐ Best Value</div>
+          <div class="price-card-icon">👑</div>
+          <div class="price-tier">Premium</div>
+          <div class="price-name">Elite</div>
+          <div class="price-duration">3 Month Plan</div>
+          <div class="price-amount">
+            <span class="price-currency">DZD</span>
+            <span class="price-number">6,700</span>
+            <span class="price-period">/3mo</span>
+          </div>
+          <ul class="price-features">
+            <li><span class="feat-check">✓</span> All "Essential" features</li>
+            <li><span class="feat-check">✓</span> <strong>3 meetings weekly</strong></li>
+            <li><span class="feat-check">✓</span> ChefBot AI access</li>
+            <li><span class="feat-check">✓</span> Specialist supervision</li>
+            <li><span class="feat-check">✓</span> Save 20% vs monthly</li>
+          </ul>
+          <a href="/signup" class="price-btn">Go Premium →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+  <div class="footer-logo">🍏 Wajbati</div>
+  <p>© 2026 Wajbati — Eat Smart. Live Better.</p>
+</footer>
+
+<script>
+// Floating leaves
+const canvas = document.getElementById('bgCanvas');
+const leafEmojis = ['🍃', '🌿', '🍀', '🌱', '🌾'];
+for (let i = 0; i < 18; i++) {
+  const leaf = document.createElement('div');
+  leaf.className = 'leaf';
+  leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+  leaf.style.left = Math.random() * 100 + 'vw';
+  leaf.style.fontSize = (14 + Math.random() * 22) + 'px';
+  leaf.style.animationDuration = (12 + Math.random() * 18) + 's';
+  leaf.style.animationDelay = (Math.random() * 20) + 's';
+  canvas.appendChild(leaf);
+}
+
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => observer.observe(el));
+// Pricing toggle
+const toggleBtn = document.getElementById('durationToggle');
+const lbl1 = document.getElementById('lbl1month');
+const lbl3 = document.getElementById('lbl3month');
+let isThreeMonth = false;
+
+toggleBtn.addEventListener('click', () => {
+  isThreeMonth = !isThreeMonth;
+  toggleBtn.classList.toggle('three-month', isThreeMonth);
+  lbl1.classList.toggle('active', !isThreeMonth);
+  lbl3.classList.toggle('active', isThreeMonth);
+  document.querySelectorAll('.price-1month').forEach(el => {
+    el.style.display = isThreeMonth ? 'none' : 'block';
+  });
+  document.querySelectorAll('.price-3month').forEach(el => {
+    el.style.display = isThreeMonth ? 'block' : 'none';
+  });
+});
+</script>
+
+</body>
+</html>

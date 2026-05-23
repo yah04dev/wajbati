@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wajbati - Registration Complete</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--green-deep:#1a4a1e;--green-mid:#2d7a35;--green-pale:#e8f5e9;--cream:#faf8f3;--gold:#c9a84c;--gold-light:#f0d98a;--text-mid:#4a5568;--leaf1:#6bcb77;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;min-height:100vh;background:linear-gradient(160deg,var(--green-deep) 0%,#2d5a32 50%,#4a8c52 100%);display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.orb1{width:420px;height:420px;background:radial-gradient(circle,rgba(107,203,119,.22),transparent);top:-110px;right:-110px;animation:pulse 6s ease-in-out infinite alternate;}
+.orb2{width:320px;height:320px;background:radial-gradient(circle,rgba(201,168,76,.15),transparent);bottom:-60px;left:-60px;animation:pulse 7s ease-in-out infinite alternate-reverse;}
+@keyframes pulse{0%{transform:scale(1)}100%{transform:scale(1.2)}}
+.fi{position:absolute;font-size:20px;opacity:.12;animation:floatIcon 9s ease-in-out infinite alternate;pointer-events:none;}
+.fi:nth-child(1){top:10%;left:7%;animation-delay:0s}.fi:nth-child(2){top:22%;right:9%;animation-delay:-2s}.fi:nth-child(3){top:68%;left:5%;animation-delay:-4s}.fi:nth-child(4){top:80%;right:11%;animation-delay:-1.5s}
+@keyframes floatIcon{0%{transform:translateY(0) rotate(-5deg)}100%{transform:translateY(-15px) rotate(5deg)}}
+.card{background:white;max-width:480px;width:100%;border-radius:24px;box-shadow:0 30px 60px rgba(0,0,0,.3);overflow:hidden;position:relative;z-index:2;animation:slideUp .7s cubic-bezier(.16,1,.3,1) both;}
+@keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.card-strip{background:linear-gradient(135deg,var(--green-deep),#2d5a32);padding:32px 28px;text-align:center;position:relative;overflow:hidden;}
+.card-strip::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(107,203,119,.15),transparent);top:-100px;right:-80px;}
+.strip-logo{display:flex;align-items:center;justify-content:center;gap:9px;font-family:'Playfair Display',serif;font-size:20px;color:white;margin-bottom:20px;position:relative;z-index:1;}
+.strip-logo-dot{width:30px;height:30px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;border:1px solid rgba(255,255,255,.2);}
+.check-circle{width:80px;height:80px;margin:0 auto 6px;background:linear-gradient(135deg,var(--leaf1),var(--green-mid));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 10px 32px rgba(45,122,53,.45);position:relative;z-index:1;animation:popIn .55s cubic-bezier(.16,1,.3,1) .25s both;}
+@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.card-body{padding:32px 30px;text-align:center;}
+.card-body h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--green-deep);margin-bottom:14px;line-height:1.25;}
+.card-body h2 em{font-style:italic;color:var(--gold);}
+.card-body p{font-size:14px;color:var(--text-mid);line-height:1.75;margin-bottom:26px;}
+.features{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;text-align:left;}
+.feat{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-mid);padding:10px 14px;background:var(--green-pale);border-radius:10px;}
+.feat-icon{font-size:16px;flex-shrink:0;}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.btn{display:block;width:100%;padding:13px 20px;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;text-decoration:none;border-radius:12px;transition:all .3s;text-align:center;}
+.btn-primary{background:linear-gradient(135deg,var(--green-mid),var(--green-deep));color:white;box-shadow:0 8px 24px rgba(26,74,30,.25);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(26,74,30,.35);}
+.btn-secondary{background:var(--green-pale);color:var(--green-deep);border:1px solid rgba(93,184,92,.2);}
+.btn-secondary:hover{background:#d4eeda;}
+@media(max-width:480px){.card-body{padding:24px 20px;}.card-strip{padding:26px 20px;}.btn-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div><div class="orb orb2"></div>
+<div class="fi">🍃</div><div class="fi">🥗</div><div class="fi">🌿</div><div class="fi">🍎</div>
+<div class="card">
+  <div class="card-strip">
+    <div class="strip-logo"><div class="strip-logo-dot">🍏</div>Wajbati</div>
+    <div class="check-circle">✓</div>
+  </div>
+  <div class="card-body">
+    <h2>Registration<br><em>Successful!</em></h2>
+    <p>Thank you for joining <strong>Wajbati</strong>.<br>Our team will assign you to the most suitable nutritionist based on your health profile, goals, and dietary needs. You will receive a <strong>phone call confirmation soon</strong>.</p>
+    <div class="features">
+      <div class="feat"><span class="feat-icon">📞</span> Phone confirmation coming soon</div>
+      <div class="feat"><span class="feat-icon">🥗</span> Personalized plan being prepared</div>
+      <div class="feat"><span class="feat-icon">👨‍⚕️</span> Nutritionist match in progress</div>
+    </div>
+    <div class="btn-row">
+      <a href="/" class="btn btn-primary">Go to Home →</a>
+      <a href="/login" class="btn btn-secondary">← Sign In</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

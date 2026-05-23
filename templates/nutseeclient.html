@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wajbati - Client Analytics</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green-deep: #1a4a1e;
+  --green-mid:  #2d7a35;
+  --green-light:#5cb85c;
+  --green-pale: #e8f5e9;
+  --cream:      #faf8f3;
+  --gold:       #c9a84c;
+  --text-dark:  #1a1a1a;
+  --text-mid:   #4a5568;
+  --leaf1:      #6bcb77;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream); color:var(--text-dark); min-height:100vh;
+}
+
+/* ── TOPBAR ── */
+.topbar{
+  background:linear-gradient(160deg,var(--green-deep) 0%,#2d5a32 60%,#4a8c52 100%);
+  padding:20px 48px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:white;
+}
+
+.logo-icon{
+  width:36px; height:36px; background:rgba(255,255,255,.15);
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:18px; border:1px solid rgba(255,255,255,.2);
+}
+
+.topbar-sub{
+  font-family:'Playfair Display',serif; font-size:14px;
+  color:rgba(255,255,255,.7); font-style:italic;
+}
+
+/* ── PAGE ── */
+.page{ max-width:1100px; margin:0 auto; padding:36px 32px 80px; }
+
+/* ── PAGE TITLE ── */
+.page-title{ margin-bottom:32px; }
+
+.page-title h1{
+  font-family:'Playfair Display',serif; font-size:28px;
+  color:var(--green-deep);
+}
+
+.page-title p{ font-size:13px; color:var(--text-mid); margin-top:4px; }
+
+/* ── SECTION HEADER ── */
+.sec-header{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+
+.sec-icon{
+  width:40px; height:40px;
+  background:linear-gradient(135deg,var(--leaf1),var(--green-deep));
+  border-radius:10px; display:flex; align-items:center;
+  justify-content:center; font-size:18px; flex-shrink:0;
+}
+
+.sec-header h2{
+  font-family:'Playfair Display',serif; font-size:19px; color:var(--green-deep);
+}
+
+/* ── CARD ── */
+.card{
+  background:white; border-radius:20px;
+  box-shadow:0 4px 24px rgba(26,74,30,.08);
+  border:1px solid rgba(93,184,92,.12);
+  margin-bottom:32px; overflow:hidden;
+}
+
+.card-inner{ padding:26px; }
+
+/* ── STAT PILLS (summary row) ── */
+.stat-row{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:32px;
+}
+
+.stat-pill{
+  background:white; border-radius:16px; padding:18px 20px;
+  box-shadow:0 4px 20px rgba(26,74,30,.07);
+  border:1px solid rgba(93,184,92,.12);
+  position:relative; overflow:hidden;
+}
+
+.stat-pill::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+}
+
+.stat-pill.w::before{ background:linear-gradient(90deg,var(--leaf1),var(--green-mid)); }
+.stat-pill.c::before{ background:linear-gradient(90deg,var(--gold),#e8a020); }
+.stat-pill.b::before{ background:linear-gradient(90deg,#6bcb77,#2b7a35); }
+
+.stat-label{
+  font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.7px; color:var(--text-mid); margin-bottom:8px;
+  display:flex; align-items:center; gap:5px;
+}
+
+.stat-value{
+  font-family:'Playfair Display',serif; font-size:26px;
+  color:var(--green-deep); line-height:1;
+}
+
+.stat-unit{ font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text-mid); }
+
+/* ── CHARTS ROW ── */
+.charts-row{
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-bottom:32px;
+}
+
+.chart-card{
+  background:white; border-radius:18px; padding:20px;
+  box-shadow:0 4px 24px rgba(26,74,30,.08);
+  border:1px solid rgba(93,184,92,.12);
+}
+
+.chart-head{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;
+}
+
+.chart-title-text{
+  font-size:12px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.7px; color:var(--text-mid);
+  display:flex; align-items:center; gap:6px;
+}
+
+.chart-dot{ width:8px; height:8px; border-radius:50%; }
+
+canvas{ width:100%!important; max-height:170px; }
+
+/* ── MEAL CARDS ── */
+.meals-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:14px; margin-bottom:8px;
+}
+
+.meal-card{
+  background:var(--cream); border-radius:14px; padding:18px;
+  border:1px solid rgba(93,184,92,.15); transition:all .25s;
+  position:relative; overflow:hidden;
+}
+
+.meal-card::before{
+  content:''; position:absolute; top:0; left:0; bottom:0; width:3px;
+  background:linear-gradient(180deg,var(--leaf1),var(--green-mid));
+}
+
+.meal-card:hover{ transform:translateY(-3px); box-shadow:0 10px 28px rgba(26,74,30,.1); }
+
+.meal-name{
+  font-family:'Playfair Display',serif; font-size:15px;
+  color:var(--green-deep); margin-bottom:10px; padding-left:6px;
+}
+
+.meal-meta{ display:flex; flex-direction:column; gap:5px; margin-bottom:14px; padding-left:6px; }
+
+.meal-row{
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:12px; color:var(--text-mid);
+}
+
+.meal-row span:first-child{
+  font-weight:600; text-transform:uppercase; letter-spacing:.5px;
+  font-size:10px; color:var(--text-mid);
+}
+
+.cal-badge{
+  background:var(--green-pale); color:var(--green-deep);
+  font-weight:700; font-size:12px; padding:2px 8px; border-radius:20px;
+}
+
+.btn-delete{
+  width:100%; padding:9px; border:none; border-radius:9px;
+  background:#fff0f0; color:#c0392b; border:1px solid #ffd0cc;
+  font-weight:600; font-size:12px; font-family:'DM Sans',sans-serif;
+  cursor:pointer; transition:all .2s; margin-left:6px;
+}
+
+.btn-delete:hover{ background:#ffe0dc; }
+
+/* ── ADD FORM ── */
+.add-form{
+  display:grid;
+  grid-template-columns:2fr 1fr 2fr 1fr auto;
+  gap:12px; align-items:end;
+}
+
+.fg label{
+  display:block; font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.6px; color:var(--text-mid); margin-bottom:7px;
+}
+
+.fg input{
+  width:100%; padding:11px 14px; border-radius:10px;
+  border:1.5px solid #e2e8f0; font-size:13px;
+  font-family:'DM Sans',sans-serif; color:var(--text-dark);
+  background:white; transition:all .2s;
+}
+
+.fg input:focus{
+  outline:none; border-color:var(--green-mid);
+  box-shadow:0 0 0 3px rgba(45,122,53,.1);
+}
+
+.btn-add{
+  padding:11px 22px;
+  background:linear-gradient(135deg,var(--green-mid),var(--green-deep));
+  color:white; border:none; border-radius:10px;
+  font-weight:600; font-size:13px; font-family:'DM Sans',sans-serif;
+  cursor:pointer; transition:all .25s; white-space:nowrap;
+}
+
+.btn-add:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(26,74,30,.3); }
+
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(93,184,92,.2),transparent);
+  margin:0 0 32px;
+}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  .charts-row{ grid-template-columns:1fr; }
+  .stat-row{ grid-template-columns:1fr; }
+}
+
+@media(max-width:640px){
+  .topbar{ padding:18px 20px; }
+  .page{ padding:24px 16px 60px; }
+  .card-inner{ padding:18px 14px; }
+  .add-form{ grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon">🍏</div>
+    Wajbati
+  </div>
+  <div class="topbar-sub">Client Analytics</div>
+</div>
+
+<div class="page">
+
+  <div class="page-title">
+    <h1>{{ cid }}</h1>
+    <p>10-day health progress overview &amp; diet management</p>
+  </div>
+
+  <!-- STAT PILLS -->
+  <div class="stat-row" id="statRow">
+    <div class="stat-pill w">
+      <div class="stat-label">⚖️ Latest Weight</div>
+      <div class="stat-value" id="latestWeight">—<span class="stat-unit"> kg</span></div>
+    </div>
+    <div class="stat-pill c">
+      <div class="stat-label">🔥 Avg Calories Eaten</div>
+      <div class="stat-value" id="avgCalories">—<span class="stat-unit"> kcal</span></div>
+    </div>
+    <div class="stat-pill b">
+      <div class="stat-label">💪 Avg Burned</div>
+      <div class="stat-value" id="avgBurned">—<span class="stat-unit"> kcal</span></div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="sec-header">
+    <div class="sec-icon">📊</div>
+    <h2>Last 10 Days Progress</h2>
+  </div>
+
+  <div class="charts-row">
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <div class="chart-title-text">
+          <span class="chart-dot" style="background:#2d7a35"></span> Weight
+        </div>
+      </div>
+      <canvas id="platesChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <div class="chart-title-text">
+          <span class="chart-dot" style="background:#c9a84c"></span> Calories Eaten
+        </div>
+      </div>
+      <canvas id="caloriesChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <div class="chart-title-text">
+          <span class="chart-dot" style="background:#6bcb77"></span> Burned
+        </div>
+      </div>
+      <canvas id="mineralsChart"></canvas>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DIET LIST -->
+  <div class="sec-header">
+    <div class="sec-icon">🥗</div>
+    <h2>Diet Plan</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-inner">
+      <div class="meals-grid">
+        {% for r in repas %}
+        <div class="meal-card">
+          <div class="meal-name">{{ r[1] }}</div>
+          <div class="meal-meta">
+            <div class="meal-row">
+              <span>Calories</span>
+              <span class="cal-badge">{{ r[2] }} kcal</span>
+            </div>
+            <div class="meal-row">
+              <span>Minerals</span>
+              <span>{{ r[3] }}</span>
+            </div>
+            <div class="meal-row">
+              <span>Hour</span>
+              <span>{{ r[4] }}:00</span>
+            </div>
+          </div>
+          <form method="POST" action="/delete_repas">
+            <input type="hidden" name="dietid" value="{{ r[0] }}">
+            <input type="hidden" name="cid" value="{{ cid }}">
+            <button class="btn-delete">✕ Remove</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD MEAL -->
+  <div class="sec-header">
+    <div class="sec-icon">➕</div>
+    <h2>Add New Meal</h2>
+  </div>
+
+  <div class="card">
+    <div class="card-inner">
+      <form method="POST" action="/add_repas" class="add-form">
+        <input type="hidden" name="cid" value="{{ cid }}">
+        <div class="fg">
+          <label>Meal Name</label>
+          <input name="mustcontain" placeholder="e.g. Grilled Salmon" required>
+        </div>
+        <div class="fg">
+          <label>Calories</label>
+          <input name="calories" placeholder="kcal" type="number" required>
+        </div>
+        <div class="fg">
+          <label>Minerals</label>
+          <input name="minerals" placeholder="e.g. Iron, Zinc">
+        </div>
+        <div class="fg">
+          <label>Hour</label>
+          <input name="hour" placeholder="0–23" type="number">
+        </div>
+        <button type="submit" class="btn-add">Add →</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const raw = {{ data | tojson }};
+
+/* ── take last 10 DAYS (unique dates) ── */
+const seen = new Set();
+const last10 = [];
+for(let i = 0; i < raw.length; i++){
+  const d = raw[i][0]; // date string
+  if(!seen.has(d)){
+    seen.add(d);
+    last10.push(raw[i]);
+    if(last10.length === 10) break;
+  }
+}
+
+last10.reverse(); // oldest → newest
+
+const dates    = last10.map(r => r[0]);
+const plates   = last10.map(r => r[1]);  // weight
+const minerals = last10.map(r => r[2]);  // burned
+const calories = last10.map(r => r[3]);  // eaten
+
+/* ── STAT PILLS ── */
+if(last10.length > 0){
+  document.getElementById('latestWeight').innerHTML  = plates[plates.length-1] + '<span class="stat-unit"> kg</span>';
+  const avgCal = Math.round(calories.reduce((a,b)=>a+b,0)/calories.length);
+  const avgBur = Math.round(minerals.reduce((a,b)=>a+b,0)/minerals.length);
+  document.getElementById('avgCalories').innerHTML = avgCal + '<span class="stat-unit"> kcal</span>';
+  document.getElementById('avgBurned').innerHTML   = avgBur + '<span class="stat-unit"> kcal</span>';
+}
+
+/* ── CHART DEFAULTS ── */
+const gradient = (ctx, c1, c2) => {
+  const g = ctx.createLinearGradient(0,0,0,160);
+  g.addColorStop(0, c1);
+  g.addColorStop(1, c2);
+  return g;
+};
+
+const tooltipPlugin = {
+  backgroundColor:'#1a4a1e',
+  titleFont:{ family:"'Playfair Display',serif", size:13 },
+  bodyFont:{ family:"'DM Sans',sans-serif", size:12 },
+  padding:12, cornerRadius:10,
+};
+
+const axisStyle = {
+  x:{ grid:{display:false}, ticks:{font:{family:"'DM Sans',sans-serif",size:10}, color:'#b0bec5'} },
+  y:{ grid:{color:'rgba(0,0,0,.04)'}, ticks:{font:{family:"'DM Sans',sans-serif",size:10}, color:'#b0bec5'} }
+};
+
+/* ── WEIGHT CHART ── */
+const ctxW = document.getElementById('platesChart').getContext('2d');
+new Chart(ctxW, {
+  type:'line',
+  data:{
+    labels:dates,
+    datasets:[{
+      label:'Weight (kg)',
+      data:plates,
+      borderColor:'#2d7a35',
+      backgroundColor: gradient(ctxW,'rgba(45,122,53,.18)','rgba(45,122,53,0)'),
+      pointBackgroundColor:'#2d7a35',
+      pointBorderColor:'white', pointBorderWidth:2,
+      pointRadius:5, pointHoverRadius:7,
+      tension:0.45, fill:true, borderWidth:2.5,
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{ legend:{display:false}, tooltip:tooltipPlugin },
+    scales:axisStyle
+  }
+});
+
+/* ── CALORIES CHART ── */
+const ctxC = document.getElementById('caloriesChart').getContext('2d');
+new Chart(ctxC, {
+  type:'bar',
+  data:{
+    labels:dates,
+    datasets:[{
+      label:'Calories Eaten',
+      data:calories,
+      backgroundColor: gradient(ctxC,'rgba(201,168,76,.85)','rgba(201,168,76,.3)'),
+      borderColor:'#c9a84c',
+      borderWidth:0,
+      borderRadius:6,
+      borderSkipped:false,
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{ legend:{display:false}, tooltip:tooltipPlugin },
+    scales:axisStyle
+  }
+});
+
+/* ── BURNED CHART ── */
+const ctxB = document.getElementById('mineralsChart').getContext('2d');
+new Chart(ctxB, {
+  type:'line',
+  data:{
+    labels:dates,
+    datasets:[{
+      label:'Burned Calories',
+      data:minerals,
+      borderColor:'#6bcb77',
+      backgroundColor: gradient(ctxB,'rgba(107,203,119,.18)','rgba(107,203,119,0)'),
+      pointBackgroundColor:'#2d7a35',
+      pointBorderColor:'white', pointBorderWidth:2,
+      pointRadius:5, pointHoverRadius:7,
+      tension:0.45, fill:true, borderWidth:2.5,
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{ legend:{display:false}, tooltip:tooltipPlugin },
+    scales:axisStyle
+  }
+});
+</script>
+
+</body>
+</html>

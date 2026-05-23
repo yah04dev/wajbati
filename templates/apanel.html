@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wajbati - Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green-deep: #1a4a1e;
+  --green-mid: #2d7a35;
+  --green-light: #5cb85c;
+  --green-pale: #e8f5e9;
+  --cream: #faf8f3;
+  --gold: #c9a84c;
+  --text-dark: #1a1a1a;
+  --text-mid: #4a5568;
+  --leaf1: #6bcb77;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: linear-gradient(160deg, var(--green-deep) 0%, #2d5a32 60%, #4a8c52 100%);
+  padding: 22px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.logo-icon {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.topbar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  font-style: italic;
+}
+
+/* ── LAYOUT ── */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+
+/* ── SEARCH ROW ── */
+.search-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.section-icon {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, var(--leaf1), var(--green-deep));
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--green-deep);
+}
+
+.section-header p {
+  font-size: 13px;
+  color: var(--text-mid);
+  margin-top: 2px;
+}
+
+/* ── CARD ── */
+.card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(26,74,30,0.08);
+  border: 1px solid rgba(93,184,92,0.12);
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.card-inner { padding: 28px; }
+
+/* ── SEARCH CARD ── */
+.search-card {
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(26,74,30,0.08);
+  border: 1px solid rgba(93,184,92,0.12);
+  padding: 22px;
+}
+
+.search-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--green-deep);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-box {
+  display: flex;
+  gap: 0;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 11px 16px;
+  border-radius: 10px 0 0 10px;
+  border: 1.5px solid #e2e8f0;
+  border-right: none;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-dark);
+  background: var(--cream);
+  transition: all 0.2s;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--green-mid);
+  background: white;
+}
+
+.search-box button {
+  padding: 11px 20px;
+  background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+  color: white;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.search-box button:hover { opacity: 0.9; }
+
+/* ── TABLE ── */
+table { width: 100%; border-collapse: collapse; }
+
+thead tr { border-bottom: 2px solid var(--green-pale); }
+
+th {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-mid);
+  padding: 10px 14px;
+  text-align: left;
+}
+
+tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s;
+}
+
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #fafffe; }
+
+td {
+  padding: 14px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.user-avatar {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--leaf1), var(--green-deep));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: white;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.btn-details {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #2a5298, var(--green-deep));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-details:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(26,74,30,0.25);
+}
+
+/* ── EMPTY ── */
+.empty-state {
+  text-align: center;
+  padding: 36px 20px;
+  color: var(--text-mid);
+  font-size: 14px;
+}
+
+.empty-state .ei { font-size: 36px; margin-bottom: 10px; }
+
+/* ── ADD ADMIN FORM ── */
+.add-admin-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(26,74,30,0.08);
+  border: 1px solid rgba(93,184,92,0.12);
+  padding: 32px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.add-admin-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--green-deep);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-mid);
+  margin-bottom: 8px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-dark);
+  background: white;
+  transition: all 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--green-mid);
+  box-shadow: 0 0 0 3px rgba(45,122,53,0.1);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.3s;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(26,74,30,0.3);
+}
+
+/* ── MOBILE ── */
+@media(max-width: 700px) {
+  .search-row { grid-template-columns: 1fr; }
+  .topbar { padding: 18px 20px; }
+  .page { padding: 24px 16px 60px; }
+
+  table, thead, tbody, tr { display: block; }
+  thead { display: none; }
+  tbody tr {
+    background: #f9fffe;
+    margin-bottom: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(93,184,92,0.12);
+    padding: 14px;
+  }
+  td { display: flex; flex-direction: column; padding: 5px 0; font-size: 13px; }
+  td::before {
+    content: attr(data-label);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-mid);
+    margin-bottom: 3px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon">🍏</div>
+    Wajbati
+  </div>
+
+  <div style="display:flex; align-items:center; gap:16px;">
+    <div class="topbar-title">Admin Dashboard</div>
+    <a href="/loginca" class="logout-btn">Logout</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- SEARCH -->
+  <div class="search-row">
+    <div class="search-card">
+      <h3>🔍 Search User</h3>
+      <form action="/details" method="GET" class="search-box">
+        <input type="email" name="id" placeholder="User email address" required>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    <div class="search-card">
+      <h3>🔍 Search Coach</h3>
+      <form action="/detailsco" method="GET" class="search-box">
+        <input type="email" name="id" placeholder="Coach email address" required>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- USERS -->
+  <div class="section-header">
+    <div class="section-icon">👤</div>
+    <div>
+      <h2>Users Waiting for Activation</h2>
+      <p>Review and activate new user accounts</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-inner">
+      <table>
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Phone</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td data-label="Full Name">
+              <div class="user-badge">
+                <div class="user-avatar">{{ u[0][0] | upper }}</div>
+                {{ u[0] }}
+              </div>
+            </td>
+            <td data-label="Phone">{{ u[1] }}</td>
+            <td data-label="Action">
+              <a href="/details?id={{ u[2] }}" class="btn-details">View Details →</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if not users %}
+      <div class="empty-state"><div class="ei">✅</div><p>No users awaiting activation</p></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- COACHES -->
+  <div class="section-header">
+    <div class="section-icon">🏅</div>
+    <div>
+      <h2>Coaches Waiting for Activation</h2>
+      <p>Review and activate new coach profiles</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-inner">
+      <table>
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Phone</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ss in coaches %}
+          <tr>
+            <td data-label="Full Name">
+              <div class="user-badge">
+                <div class="user-avatar">{{ ss[0][0] | upper }}</div>
+                {{ ss[0] }}
+              </div>
+            </td>
+            <td data-label="Phone">{{ ss[1] }}</td>
+            <td data-label="Action">
+              <a href="/detailsco?id={{ ss[2] }}" class="btn-details">View Details →</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if not coaches %}
+      <div class="empty-state"><div class="ei">✅</div><p>No coaches awaiting activation</p></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ADD ADMIN -->
+  <div class="add-admin-card">
+    <h2>➕ Add New Admin</h2>
+
+    <form action="/add_admin" method="POST">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" name="fullname" placeholder="Admin full name" required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="admin@wajbati.com" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Secure password" required>
+      </div>
+      <button type="submit" class="btn-submit">Create Admin Account →</button>
+    </form>
+  </div>
+
+</div>
+
+</body>
+</html>

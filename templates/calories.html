@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calories AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green-deep: #1a4a1e;
+  --green-mid:  #2d7a35;
+  --green-light:#5cb85c;
+  --green-pale: #e8f5e9;
+  --cream:      #faf8f3;
+  --text-dark:  #1a1a1a;
+  --text-mid:   #4a5568;
+  --leaf1:      #6bcb77;
+  --accent:     #C06014;
+}
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+}
+
+/* TOPBAR */
+.topbar{
+  background:rgba(26,74,30,0.95);
+  padding:14px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:white;
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+}
+
+.logo-icon{
+  width:36px;height:36px;
+  background:white;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.nav a{
+  color:white;
+  text-decoration:none;
+  margin-left:15px;
+  font-size:14px;
+}
+
+/* CONTAINER */
+.container{
+  max-width:650px;
+  margin:40px auto;
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 6px 25px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+h2{
+  font-family:'Playfair Display',serif;
+  color:var(--green-deep);
+  margin-bottom:15px;
+}
+
+/* FORM */
+input[type="file"]{
+  width:100%;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:10px;
+}
+
+button{
+  margin-top:10px;
+  background:var(--accent);
+  color:white;
+  border:none;
+  padding:12px;
+  width:100%;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{
+  background:#a94f10;
+}
+
+/* IMAGE */
+img{
+  margin-top:15px;
+  border-radius:12px;
+}
+
+/* FOOD CARD */
+.food{
+  background:var(--green-pale);
+  border-left:5px solid var(--green-mid);
+  padding:12px;
+  margin:12px 0;
+  border-radius:10px;
+}
+
+.food b{
+  color:var(--green-deep);
+}
+
+/* TOTAL */
+.total{
+  margin-top:15px;
+  padding:15px;
+  background:#fff7ec;
+  border-radius:10px;
+  border:1px solid #f0d2b5;
+}
+
+/* SECTION TITLES */
+.section-title{
+  margin-top:20px;
+  font-weight:600;
+  color:var(--green-mid);
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon">🍏</div>
+    Wajbati
+  </div>
+  <div class="nav">
+    <a href="/upanel">Dashboard</a>
+    <a href="/blog">Blog</a>
+    <a href="/login">logout</a>
+  </div>
+</div>
+
+<div class="container">
+
+    <h2>🍽️ Analyze Your Meal</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button>Analyze</button>
+    </form>
+
+    {% if image_url %}
+        <div class="section-title">📸 Image</div>
+        <img src="{{image_url}}" width="100%">
+    {% endif %}
+
+    {% if foods %}
+        <div class="section-title">🍽️ Results</div>
+
+        {% for f in foods %}
+        <div class="food">
+            <b>{{f.name}}</b><br>
+            {{f.grams}} g • {{f.cal}} kcal<br>
+            🥩 {{f.protein}}g | 🍞 {{f.carbs}}g | 🧈 {{f.fat}}g<br>
+            <small>Confidence: {{f.conf}}</small>
+        </div>
+        {% endfor %}
+
+        <div class="section-title">🔥 Total</div>
+        <div class="total">
+            Calories: {{totals.cal}} kcal<br>
+            Protein: {{totals.protein}} g<br>
+            Carbs: {{totals.carbs}} g<br>
+            Fat: {{totals.fat}} g
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

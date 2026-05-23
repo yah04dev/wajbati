@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wajbati - My Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+  --green-deep: #1a4a1e;
+  --green-mid:  #2d7a35;
+  --green-light:#5cb85c;
+  --green-pale: #e8f5e9;
+  --cream:      #faf8f3;
+  --gold:       #c9a84c;
+  --text-dark:  #1a1a1a;
+  --text-mid:   #4a5568;
+  --leaf1:      #6bcb77;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--text-dark);
+  min-height:100vh;
+}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:linear-gradient(160deg,var(--green-deep) 0%,#2d5a32 60%,#4a8c52 100%);
+  padding:20px 48px;
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:50;
+  box-shadow:0 4px 24px rgba(0,0,0,.2);
+}
+
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:white;
+}
+
+.logo-icon{
+  width:36px; height:36px; background:rgba(255,255,255,.15);
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:18px; border:1px solid rgba(255,255,255,.2);
+}
+
+.topbar-right{
+  display:flex; align-items:center; gap:10px;
+}
+
+.topbar-greeting{
+  font-size:13px; color:rgba(255,255,255,.7);
+  font-style:italic; font-family:'Playfair Display',serif;
+}
+
+/* ── PAGE ── */
+.page{ max-width:1100px; margin:0 auto; padding:36px 32px 80px; }
+
+/* ── SECTION HEADER ── */
+.sec-header{
+  display:flex; align-items:center; gap:12px; margin-bottom:20px;
+}
+
+.sec-icon{
+  width:40px; height:40px;
+  background:linear-gradient(135deg,var(--leaf1),var(--green-deep));
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:18px; flex-shrink:0;
+}
+
+.sec-header h2{
+  font-family:'Playfair Display',serif; font-size:20px; color:var(--green-deep);
+}
+
+.sec-header p{ font-size:13px; color:var(--text-mid); margin-top:2px; }
+
+/* ── DIET CARDS ── */
+.diet-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:16px; margin-bottom:40px;
+}
+
+.diet-card{
+  background:white; border-radius:16px; padding:20px;
+  border:1px solid rgba(93,184,92,.12);
+  box-shadow:0 4px 20px rgba(26,74,30,.07);
+  transition:all .3s;
+  position:relative; overflow:hidden;
+}
+
+.diet-card::before{
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--leaf1),var(--green-mid));
+}
+
+.diet-card:hover{ transform:translateY(-4px); box-shadow:0 12px 32px rgba(26,74,30,.13); }
+
+.diet-cal{
+  font-family:'Playfair Display',serif; font-size:26px;
+  color:var(--green-deep); margin-bottom:4px;
+}
+
+.diet-cal span{ font-size:13px; font-family:'DM Sans',sans-serif; color:var(--text-mid); }
+
+.diet-row{
+  display:flex; align-items:center; gap:7px;
+  font-size:13px; color:var(--text-mid); margin-top:8px;
+}
+
+.diet-row-label{
+  font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.6px; color:var(--text-mid); min-width:55px;
+}
+
+.diet-tag{
+  background:var(--green-pale); color:var(--green-deep);
+  font-size:11px; font-weight:600; padding:3px 8px; border-radius:20px;
+}
+
+.hour-badge{
+  margin-top:12px;
+  display:inline-flex; align-items:center; gap:5px;
+  background:linear-gradient(135deg,var(--leaf1),var(--green-mid));
+  color:white; font-size:12px; font-weight:600;
+  padding:5px 12px; border-radius:20px;
+}
+
+.no-diet{
+  text-align:center; padding:48px; color:var(--text-mid); font-size:14px;
+  background:white; border-radius:16px; border:2px dashed #d0e8d0;
+}
+
+/* ── CHARTS AREA ── */
+.charts-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:40px;
+}
+
+.chart-card{
+  background:white; border-radius:18px; padding:22px;
+  box-shadow:0 4px 24px rgba(26,74,30,.08);
+  border:1px solid rgba(93,184,92,.12);
+}
+
+.chart-title{
+  font-size:12px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.7px; color:var(--text-mid); margin-bottom:16px;
+  display:flex; align-items:center; gap:7px;
+}
+
+.chart-title .dot{
+  width:8px; height:8px; border-radius:50%;
+}
+
+canvas{ width:100%!important; max-height:200px; }
+
+.no-data-msg{
+  text-align:center; padding:60px 20px; color:var(--text-mid); font-size:14px;
+}
+
+/* ── ACTION BUTTONS ── */
+.action-row{
+  display:flex; gap:14px; flex-wrap:wrap; margin-bottom:40px;
+}
+
+.btn-action{
+  flex:1; min-width:160px;
+  padding:15px 24px; border:none; border-radius:14px;
+  font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600;
+  cursor:pointer; transition:all .3s; display:flex; align-items:center;
+  gap:10px; justify-content:center;
+}
+
+.btn-progress{
+  background:linear-gradient(135deg,var(--green-mid),var(--green-deep));
+  color:white;
+}
+
+.btn-progress:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 28px rgba(26,74,30,.3);
+}
+
+.btn-consult{
+  background:linear-gradient(135deg,var(--gold),#a07830);
+  color:white;
+}
+
+.btn-consult:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 28px rgba(201,168,76,.4);
+}
+
+/* ── MODAL ── */
+.modal-overlay{
+  display:none; position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,.5); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center; padding:20px;
+}
+
+.modal-overlay.open{ display:flex; }
+
+.modal{
+  background:white; border-radius:22px;
+  width:100%; max-width:440px;
+  box-shadow:0 30px 60px rgba(0,0,0,.3);
+  overflow:hidden;
+  animation:modalIn .4s cubic-bezier(.16,1,.3,1) both;
+}
+
+@keyframes modalIn{
+  from{opacity:0;transform:scale(.94) translateY(20px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+.modal-head{
+  background:linear-gradient(135deg,var(--green-deep),#2d5a32);
+  padding:22px 26px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+
+.modal-head h3{
+  font-family:'Playfair Display',serif; font-size:20px; color:white;
+}
+
+.modal-close{
+  width:32px; height:32px; background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.2); border-radius:8px;
+  color:white; font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:.2s;
+}
+
+.modal-close:hover{ background:rgba(255,255,255,.25); }
+
+.modal-body{ padding:24px 26px; }
+
+.form-group{ margin-bottom:16px; }
+
+.form-group label{
+  display:block; font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.6px;
+  color:var(--text-mid); margin-bottom:7px;
+}
+
+.form-group input,
+.form-group textarea{
+  width:100%; padding:11px 14px;
+  border-radius:10px; border:1.5px solid #e2e8f0;
+  font-size:14px; font-family:'DM Sans',sans-serif;
+  color:var(--text-dark); background:white; transition:all .2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+  outline:none; border-color:var(--green-mid);
+  box-shadow:0 0 0 3px rgba(45,122,53,.1);
+}
+
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+.btn-submit{
+  width:100%; padding:13px; border:none; border-radius:12px;
+  font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600;
+  cursor:pointer; transition:all .3s; margin-top:6px; color:white;
+}
+
+.btn-submit.green{
+  background:linear-gradient(135deg,var(--green-mid),var(--green-deep));
+}
+
+.btn-submit.gold{
+  background:linear-gradient(135deg,var(--gold),#a07830);
+}
+
+.btn-submit:hover{ transform:translateY(-2px); box-shadow:0 10px 28px rgba(0,0,0,.2); }
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .topbar{ padding:18px 20px; }
+  .page{ padding:24px 16px 60px; }
+  .charts-grid{ grid-template-columns:1fr; }
+  .action-row{ flex-direction:column; }
+}
+.top-btn{
+  padding:8px 14px;
+  border-radius:10px;
+  border:none;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .25s;
+  background:rgba(255,255,255,.15);
+  color:white;
+  border:1px solid rgba(255,255,255,.2);
+}
+
+.top-btn:hover{
+  background:rgba(255,255,255,.25);
+  transform:translateY(-1px);
+}
+
+/* logout special color */
+.top-btn.logout{
+  background:rgba(255,80,80,.2);
+  border:1px solid rgba(255,80,80,.4);
+}
+
+.top-btn.logout:hover{
+  background:rgba(255,80,80,.35);
+}
+</style>
+</head>
+
+<body>
+
+<!-- Zapier ChefBot -->
+<script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
+<zapier-interfaces-chatbot-embed is-popup='true' chatbot-id='cmngfpf1000fz11ku2rofk8o5'></zapier-interfaces-chatbot-embed>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon">🍏</div>
+    Wajbati
+  </div><div class="topbar-right">
+
+  <div class="topbar-greeting">My Health Dashboard</div>
+
+  <button id="joinMeetBtn"  class="top-btn">
+    🎥 Join Meeting
+  </button>
+
+  <button id="caloriesBtn"  class="top-btn">
+    🔥 Calories Estimator
+  </button>
+
+  <button onclick="location.href='/login'" class="top-btn logout">
+    🚪 Logout
+  </button>
+  <button onclick="location.href='/blog'" class="top-btn">
+    blog
+  </button>
+</div>
+</div>
+
+<div class="page">
+
+  <!-- DIET PLAN -->
+  <div class="sec-header">
+    <div class="sec-icon">🥗</div>
+    <div>
+      <h2>Your Diet Plan</h2>
+      <p>Meals assigned by your nutritionist</p>
+    </div>
+  </div>
+<p>nutritionist is available from : {{availability}}</p>
+  <div class="diet-grid">
+    {% for d in diets %}
+    <div class="diet-card">
+      <div class="diet-cal">{{ d[0] }}<span> kcal</span></div>
+      <div class="diet-row">
+        <span class="diet-row-label">Meal</span>
+        <span class="diet-tag">{{ d[1] }}</span>
+      </div>
+      <div class="diet-row">
+        <span class="diet-row-label">Minerals</span>
+        <span>{{ d[2] }}</span>
+      </div>
+      <div class="hour-badge">🕐 {{ d[4] }}:00</div>
+    </div>
+    {% else %}
+    <div class="no-diet" style="grid-column:1/-1">
+      🌱 No diet plan assigned yet — your nutritionist will set one up soon.
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="action-row">
+    <button class="btn-action btn-progress" onclick="openModal('progressModal')">
+      📈 Add Progress
+    </button>
+    <button class="btn-action btn-consult" onclick="openModal('consultModal')">
+      📅 Book Consultation
+    </button>
+  </div>
+
+  <!-- PROGRESS CHARTS -->
+  <div class="sec-header">
+    <div class="sec-icon">📊</div>
+    <div>
+      <h2>Your Progress</h2>
+      <p>Calories &amp; weight over time</p>
+    </div>
+  </div>
+
+  <div class="charts-grid" id="chartsArea">
+    <div class="chart-card">
+      <div class="chart-title">
+        <span class="dot" style="background:#2d7a35"></span> Calories Eaten
+        <span class="dot" style="background:#c9a84c;margin-left:10px"></span> Calories Burned
+      </div>
+      <canvas id="chartCalories"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">
+        <span class="dot" style="background:#6bcb77"></span> Weight (kg)
+      </div>
+      <canvas id="chartWeight"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── PROGRESS MODAL ── -->
+<div class="modal-overlay" id="progressModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>📈 Log Progress</h3>
+      <button class="modal-close" onclick="closeModal('progressModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form action="/progres" method="POST">
+        <input type="hidden" name="client_email" value="{{ request.cookies.get('EID') }}">
+
+        <div class="form-group">
+          <label>Date</label>
+          <input type="text" id="dateField" name="date" readonly>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Calories Eaten</label>
+            <input type="number" name="calories_eaten" placeholder="kcal" required>
+          </div>
+          <div class="form-group">
+            <label>Calories Burned</label>
+            <input type="number" name="calories_burned" placeholder="kcal" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Plates Eaten</label>
+            <input type="number" name="plates_eaten" placeholder="count" required>
+          </div>
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <input type="number" step="0.1" name="weight" placeholder="kg" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Missing Minerals</label>
+          <input type="text" name="missing_minerals" placeholder="e.g. Iron, Zinc">
+        </div>
+
+        <button type="submit" class="btn-submit green">Save Progress →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONSULT MODAL ── -->
+<div class="modal-overlay" id="consultModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>📅 Book Consultation</h3>
+      <button class="modal-close" onclick="closeModal('consultModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form action="/book_consultation" method="POST">
+        <input type="hidden" name="client_email" value="{{ request.cookies.get('EID') }}">
+
+        <div class="form-group">
+          <label>Preferred Date &amp; Time</label>
+          <input type="datetime-local" name="date" required>
+        </div>
+
+        <div class="form-group">
+          <label>Notes for your nutritionist</label>
+          <textarea name="notes" rows="3" placeholder="Any symptoms, questions or goals..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit gold">Confirm Booking →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+/* modals */
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if(e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+/* auto date */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('dateField').value = new Date().toISOString().split('T')[0];
+});
+
+/* ── CHARTS ── */
+const raw = {{ data | tojson }};
+
+const chartOpts = (colors) => ({
+  responsive: true,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: '#1a4a1e',
+      titleFont: { family: "'Playfair Display', serif", size: 13 },
+      bodyFont: { family: "'DM Sans', sans-serif", size: 12 },
+      padding: 12, cornerRadius: 10,
+    }
+  },
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: { font: { family: "'DM Sans', sans-serif", size: 11 }, color: '#a0aec0' }
+    },
+    y: {
+      grid: { color: 'rgba(0,0,0,.04)' },
+      ticks: { font: { family: "'DM Sans', sans-serif", size: 11 }, color: '#a0aec0' }
+    }
+  }
+});
+
+if(raw.length > 0){
+  const dates  = raw.map(r => r[0]);
+  const eaten  = raw.map(r => r[1]);
+  const burned = raw.map(r => r[2]);
+  const weight = raw.map(r => r[3]);
+
+  /* CALORIES */
+  new Chart(document.getElementById('chartCalories'), {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [
+        {
+          label: 'Calories Eaten',
+          data: eaten,
+          borderColor: '#2d7a35',
+          backgroundColor: 'rgba(45,122,53,.1)',
+          pointBackgroundColor: '#2d7a35',
+          pointRadius: 5, pointHoverRadius: 7,
+          tension: 0.4, fill: true, borderWidth: 2.5,
+        },
+        {
+          label: 'Calories Burned',
+          data: burned,
+          borderColor: '#c9a84c',
+          backgroundColor: 'rgba(201,168,76,.08)',
+          pointBackgroundColor: '#c9a84c',
+          pointRadius: 5, pointHoverRadius: 7,
+          tension: 0.4, fill: true, borderWidth: 2.5,
+        }
+      ]
+    },
+    options: {
+      ...chartOpts(),
+      plugins: {
+        ...chartOpts().plugins,
+        legend: {
+          display: true,
+          labels: { font: { family: "'DM Sans', sans-serif", size: 12 }, color: '#4a5568', boxWidth: 12 }
+        }
+      }
+    }
+  });
+
+  /* WEIGHT */
+  new Chart(document.getElementById('chartWeight'), {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [{
+        label: 'Weight (kg)',
+        data: weight,
+        borderColor: '#6bcb77',
+        backgroundColor: 'rgba(107,203,119,.12)',
+        pointBackgroundColor: '#2d7a35',
+        pointBorderColor: 'white',
+        pointBorderWidth: 2,
+        pointRadius: 6, pointHoverRadius: 8,
+        tension: 0.45, fill: true, borderWidth: 2.5,
+      }]
+    },
+    options: chartOpts()
+  });
+
+} else {
+  document.getElementById('chartsArea').innerHTML =
+    '<div class="no-data-msg" style="grid-column:1/-1">📊 No progress data yet — log your first entry above!</div>';
+}
+
+/* helper */
+function getToday() {
+    return new Date().toISOString().split('T')[0];
+}
+
+/* week number */
+function getWeekKey() {
+    const now = new Date();
+
+    const firstJan = new Date(now.getFullYear(), 0, 1);
+
+    const days = Math.floor((now - firstJan) / 86400000);
+
+    const week = Math.ceil((days + firstJan.getDay() + 1) / 7);
+
+    return now.getFullYear() + "-W" + week;
+}
+
+/* =========================
+   JOIN MEETING LIMIT
+   3 TIMES / WEEK
+========================= */
+
+document.getElementById("joinMeetBtn").addEventListener("click", () => {
+
+    const currentWeek = getWeekKey();
+
+    let meetData = JSON.parse(localStorage.getItem("meetUsage"));
+
+    /* reset if new week */
+    if (!meetData || meetData.week !== currentWeek) {
+        meetData = {
+            week: currentWeek,
+            count: 0
+        };
+    }
+
+    /* limit reached */
+    if (meetData.count >= 3) {
+        alert("❌ You already joined meetings 3 times this week.");
+        return;
+    }
+
+    /* increment */
+    meetData.count++;
+
+    localStorage.setItem("meetUsage", JSON.stringify(meetData));
+
+    /* redirect */
+    window.location.href = "/joinmeet";
+});
+
+
+/* =========================
+   CALORIES ESTIMATOR LIMIT
+   3 TIMES / DAY
+========================= */
+
+document.getElementById("caloriesBtn").addEventListener("click", () => {
+
+    const today = getToday();
+
+    let caloriesData = JSON.parse(localStorage.getItem("caloriesUsage"));
+
+    /* reset if new day */
+    if (!caloriesData || caloriesData.date !== today) {
+        caloriesData = {
+            date: today,
+            count: 0
+        };
+    }
+
+    /* limit reached */
+    if (caloriesData.count >= 3) {
+        alert("❌ AI Calories Estimator limit reached (3 uses today).");
+        return;
+    }
+
+    /* increment */
+    caloriesData.count++;
+
+    localStorage.setItem("caloriesUsage", JSON.stringify(caloriesData));
+
+    /* redirect */
+    window.location.href = "/calories";
+});
+</script>
+
+</body>
+</html>

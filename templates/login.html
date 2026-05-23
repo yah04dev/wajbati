@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wajbati - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* (Keep your exact CSS from your prompt here, omitting for brevity in the response, but leave it exactly as it was) */
+:root {
+  --green-deep: #1a4a1e;
+  --green-mid: #2d7a35;
+  --green-light: #5cb85c;
+  --green-pale: #e8f5e9;
+  --cream: #faf8f3;
+  --gold: #c9a84c;
+  --text-mid: #4a5568;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+/* LEFT PANEL */
+.panel-left {
+  background: linear-gradient(160deg, var(--green-deep) 0%, #2d5a32 50%, #4a8c52 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel-left::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(107,203,119,0.18), transparent);
+  top: -150px; right: -150px;
+  animation: pulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.25); }
+}
+
+.left-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+}
+
+.left-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 50px;
+}
+
+.left-logo-icon {
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.left-logo span {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.left-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  line-height: 1.25;
+  margin-bottom: 18px;
+}
+
+.left-tagline em { font-style: italic; color: var(--gold); }
+
+.left-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.65;
+  max-width: 360px;
+}
+
+/* RIGHT PANEL */
+.panel-right {
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 50px;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 400px;
+  animation: slideIn 0.7s ease both;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.form-header { margin-bottom: 36px; }
+
+.form-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: var(--green-deep);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.form-header p { font-size: 14px; color: var(--text-mid); }
+
+.role-tabs {
+  display: flex;
+  background: #f1f5f1;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 24px;
+  gap: 4px;
+}
+
+.role-tab {
+  flex: 1;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.role-tab.active {
+  background: white;
+  color: var(--green-deep);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.input-group { margin-bottom: 20px; text-align: left; }
+
+.input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-deep);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.input-group input, .input-group select {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  background: white;
+  color: var(--green-deep);
+  transition: all 0.25s;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(26, 74, 30, 0.3); }
+
+.links { margin-top: 22px; font-size: 14px; text-align: center; color: var(--text-mid); }
+.links a { color: var(--green-mid); text-decoration: none; font-weight: 500; }
+
+@media(max-width: 768px) {
+  body { grid-template-columns: 1fr; }
+  .panel-left { display: none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel-left">
+  <div class="left-content">
+    <div class="left-logo">
+      <div class="left-logo-icon">🍏</div>
+      <span>Wajbati</span>
+    </div>
+    <h2 class="left-tagline">Your health<br>journey <em>starts</em><br>here</h2>
+    <p class="left-sub">Track calories, get personalized plans, and connect with expert nutritionists.</p>
+  </div>
+</div>
+
+<div class="panel-right">
+  <div class="form-box">
+    <div class="form-header">
+      <h2>Welcome back 👋</h2>
+      <p>Sign in to your Wajbati account</p>
+    </div>
+
+    <div class="role-tabs">
+      <button class="role-tab active" id="tabUser" onclick="switchRole('user')">👤 User</button>
+      <button class="role-tab" id="tabCoach" onclick="switchRole('coach')">🥗 Coach</button>
+    </div>
+
+    <!-- Default action set to /logina -->
+    <form id="loginForm" method="POST" action="/logina">
+      <b>{{err}}</b>
+      <!-- PLAN SELECTION (Only for Users) -->
+      <div class="input-group" id="planGroup">
+        <label>Account Type</label>
+ 
+        <select id="planType" name="plan" onchange="updateFormAction()">
+          <option value="premium">Premium User</option>
+          <option value="basic">Basic User</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="you@example.com" id="emailField" required>
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" id="passwordField" required>
+      </div>
+
+      <button type="submit" class="btn" id="submitBtn">Sign In →</button>
+
+    </form>
+
+    <div class="links">
+      <p id="signupLink">Don't have an account? <a href="/signup">Create one free</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Function to update the form target route based on current selections
+function updateFormAction() {
+  const form = document.getElementById('loginForm');
+  const isUserTab = document.getElementById('tabUser').classList.contains('active');
+  const planType = document.getElementById('planType').value;
+
+  if (isUserTab) {
+    if (planType === 'basic') {
+      form.action = '/checkba';
+    } else {
+      form.action = '/logina';
+    }
+  } else {
+    form.action = '/logincaaa';
+  }
+}
+
+function switchRole(role) {
+  const tabUser = document.getElementById('tabUser');
+  const tabCoach = document.getElementById('tabCoach');
+  const signupLink = document.getElementById('signupLink');
+  const planGroup = document.getElementById('planGroup');
+
+  if (role === 'user') {
+    tabUser.classList.add('active');
+    tabCoach.classList.remove('active');
+    planGroup.style.display = 'block';
+    signupLink.innerHTML = "Don't have an account? <a href='/signup'>Create one free</a>";
+  } else {
+    tabCoach.classList.add('active');
+    tabUser.classList.remove('active');
+    planGroup.style.display = 'none';
+    signupLink.innerHTML = "Want to join as a coach? <a href='/signupco'>Apply here</a>";
+  }
+  
+  // Update action whenever role changes
+  updateFormAction();
+}
+</script>
+
+</body>
+</html>

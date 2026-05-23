@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wajbati Feed</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  background:#f0f2f5;
+}
+
+/* TOPBAR */
+.topbar{
+  background:linear-gradient(160deg,#1a4a1e,#2d5a32,#4a8c52);
+  padding:12px 24px;
+  color:white;
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* SHARED TOPBAR BUTTON STYLE */
+.nav-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-btn:hover {
+  background: white;
+  color: #1a4a1e;
+  transform: translateY(-1px);
+}
+
+/* MAIN CONTAINER */
+.container{
+  max-width:600px;
+  margin:20px auto;
+  padding: 0 15px;
+}
+
+/* CREATE POST BOX */
+.create-box{
+  background:white;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:20px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+.create-btn{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:#f1f8f1;
+  cursor:pointer;
+  text-align: left;
+  color: #555;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.create-btn:hover {
+  background: #e4f0e4;
+}
+
+/* POST CARDS */
+.post{
+  background:white;
+  border-radius:14px;
+  margin-bottom:20px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  overflow:hidden;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.post-header{
+  padding:12px 15px;
+  font-weight: 600;
+  color:#1a4a1e;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.post img{
+  width:100%;
+  max-height:350px;
+  object-fit:cover;
+}
+
+.post-body{
+  padding:15px;
+  font-size:14px;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* MODAL STYLES */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-box{
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  width:90%;
+  max-width:400px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-box h3 { margin-top: 0; color: #1a4a1e; }
+
+.modal-box input,
+.modal-box textarea{
+  width:100%;
+  margin-bottom:12px;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.modal-box button.primary-btn{
+  width:100%;
+  padding:12px;
+  background:#2d7a35;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.modal-box button.cancel-btn{
+  width:100%;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <span>🍏 Wajbati Feed</span>
+  <div class="topbar-actions">
+    <button class="nav-btn" onclick="goBack()">
+      <span>←</span> Back
+    </button>
+    <button class="nav-btn" onclick="logout()">
+      <span>🚪</span> Logout
+    </button>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="create-box">
+    <button class="create-btn" onclick="openModal()">What's on your mind?</button>
+  </div>
+
+  <div id="feed">
+    <div class="post">
+      <div class="post-header">Nutrition Tip</div>
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80">
+      <div class="post-body">
+        Eating greens daily boosts your energy 🌱
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3>Create Post</h3>
+
+    <input type="text" id="title" placeholder="Title">
+    <input type="text" id="img" placeholder="Image URL (Optional)">
+    <textarea id="text" rows="4" placeholder="Write something..."></textarea>
+
+    <button class="primary-btn" onclick="addPost()">Post</button>
+    <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<script>
+// NAVIGATION FUNCTIONS
+function goBack() {
+    // Returns user to the previous page in their history
+    window.history.back();
+}
+
+function logout() {
+    if(confirm("Are you sure you want to logout?")) {
+        window.location.href = '/loginca';
+    }
+}
+
+// POSTING LOGIC
+function openModal(){
+  document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+function addPost(){
+  const title = document.getElementById("title").value;
+  const img = document.getElementById("img").value;
+  const text = document.getElementById("text").value;
+
+  if(!title || !text){
+    alert("Please fill in the title and content.");
+    return;
+  }
+
+  const postHTML = `
+  <div class="post">
+    <div class="post-header">${title}</div>
+    ${img ? `<img src="${img}">` : ""}
+    <div class="post-body">${text}</div>
+  </div>
+  `;
+
+  const feed = document.getElementById("feed");
+  feed.insertAdjacentHTML('afterbegin', postHTML);
+
+  closeModal();
+
+  // Clear inputs
+  document.getElementById("title").value="";
+  document.getElementById("img").value="";
+  document.getElementById("text").value="";
+}
+
+// Close modal when clicking background
+window.onclick = function(event) {
+  const modal = document.getElementById("modal");
+  if (event.target == modal) {
+    closeModal();
+  }
+}
+</script>
+
+</body>
+</html>

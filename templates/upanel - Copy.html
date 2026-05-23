@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wajbati Diets</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
+<zapier-interfaces-chatbot-embed is-popup='true' chatbot-id='cmngfpf1000fz11ku2rofk8o5'></zapier-interfaces-chatbot-embed>
+<div class="container py-5">
+    <h2 class="text-center mb-4">Your Diets</h2>
+
+    <div class="row g-4">
+        {% set shown_coach = [] %}
+        {% for d in diets %}
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Calories: {{ d[0] }}</h5>
+                    <p class="card-text"><strong>Must Contain:</strong> {{ d[1] }}</p>
+                    <p class="card-text"><strong>Minerals:</strong> {{ d[2] }}</p>
+                    <p class="card-text"><strong>Eating Hour:</strong> {{ d[4] }}</p>
+
+                   
+
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-center">No diets assigned yet.</p>
+        {% endfor %}
+    </div>
+
+    <div class="mt-4 d-flex justify-content-center gap-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#progressModal">
+            Add Progress
+        </button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#consultModal">
+            Book Consultation
+        </button>
+    </div>
+</div>
+
+<!-- Progress Modal -->
+<div class="modal fade" id="progressModal" tabindex="-1" aria-labelledby="progressModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/progres" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="progressModalLabel">Add Progress</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="client_email" value="{{ request.cookies.get('EID') }}">
+          <div class="mb-3">
+            <label class="form-label">Calories Eaten</label>
+            <input type="number" name="calories_eaten" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Number of Plates Eaten</label>
+            <input type="number" name="plates_eaten" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Missing Minerals</label>
+            <input type="text" name="missing_minerals" class="form-control" placeholder="Iron, Calcium...">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Weight</label>
+            <input type="text" name="weight" class="form-control" placeholder="70KG">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary w-100">Save Progress</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Consultation Modal -->
+<div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="/book_consultation" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="consultModalLabel">Book Consultation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="client_email" value="{{ request.cookies.get('EID') }}">
+          <div class="mb-3">
+            <label class="form-label">Preferred Date & Time</label>
+            <input type="datetime-local" name="date" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Notes (optional)</label>
+            <textarea name="notes" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success w-100">Book Consultation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

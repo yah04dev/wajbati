@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wajbati - Coach Details</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green-deep: #1a4a1e;
+  --green-mid: #2d7a35;
+  --green-light: #5cb85c;
+  --green-pale: #e8f5e9;
+  --cream: #faf8f3;
+  --gold: #c9a84c;
+  --text-dark: #1a1a1a;
+  --text-mid: #4a5568;
+  --leaf1: #6bcb77;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--green-deep) 0%, #2d5a32 50%, #4a8c52 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.orb1 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(107,203,119,0.2), transparent);
+  top: -100px; right: -100px;
+  animation: pulse 6s ease-in-out infinite alternate;
+}
+.orb2 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12), transparent);
+  bottom: -60px; left: -60px;
+  animation: pulse 7s ease-in-out infinite alternate-reverse;
+}
+@keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
+
+/* ── CARD ── */
+.card {
+  background: white;
+  width: 100%;
+  max-width: 460px;
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-header {
+  background: linear-gradient(160deg, var(--green-deep), #2d5a32);
+  padding: 28px 24px 56px;
+  text-align: center;
+  position: relative;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: white;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.logo-dot {
+  width: 26px; height: 26px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.avatar-wrap {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  overflow: hidden;
+  background: var(--green-pale);
+}
+
+.avatar-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ── BODY ── */
+.card-body { padding: 64px 28px 28px; }
+
+.coach-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--green-deep);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.coach-subtitle {
+  font-size: 13px;
+  color: var(--text-mid);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* ── BADGE ── */
+.specialty-badge {
+  display: inline-block;
+  background: var(--green-pale);
+  color: var(--green-deep);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin: 0 auto 20px;
+  display: block;
+  width: fit-content;
+}
+
+/* ── DETAILS ── */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.detail-item {
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(93,184,92,0.12);
+}
+
+.detail-item.full { grid-column: 1 / -1; }
+
+.detail-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--text-mid);
+  margin-bottom: 4px;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: var(--text-dark);
+  font-weight: 500;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.detail-value a {
+  color: var(--green-mid);
+  text-decoration: none;
+  font-weight: 600;
+}
+.detail-value a:hover { text-decoration: underline; }
+
+/* ── BUTTONS ── */
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.btn-accept, .btn-refuse {
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.25s;
+  width: 100%;
+}
+
+.btn-accept {
+  background: linear-gradient(135deg, var(--green-light), var(--green-mid));
+  color: white;
+}
+.btn-accept:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(45,122,53,0.35);
+}
+
+.btn-refuse {
+  background: #fff0f0;
+  color: #c0392b;
+  border: 1.5px solid #ffd0cc;
+}
+.btn-refuse:hover { background: #ffe0dc; }
+
+form { display: contents; }
+
+@media(max-width: 480px) {
+  .details-grid { grid-template-columns: 1fr; }
+  .detail-item.full { grid-column: auto; }
+  .card-body { padding: 64px 20px 24px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="card">
+
+  <div class="card-header">
+    <div class="logo">
+      <div class="logo-dot">🍏</div>
+      Wajbati
+    </div>
+    <div class="avatar-wrap">
+      <img id="coachPhoto" alt="Coach Photo">
+    </div>
+  </div>
+
+  <div class="card-body">
+
+    <div class="coach-name">{{ codet[2] }}</div>
+    <div class="coach-subtitle">Nutritionist / Coach Profile</div>
+
+    <div class="details-grid">
+      <div class="detail-item full">
+        <div class="detail-label">Email</div>
+        <div class="detail-value">{{ codet[0] }}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Phone</div>
+        <div class="detail-value">{{ codet[3] }}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Experience</div>
+        <div class="detail-value">{{ codet[6] }} years</div>
+      </div>
+      <div class="detail-item full">
+        <div class="detail-label">Degree</div>
+        <div class="detail-value">{{ codet[4] }}</div>
+      </div>
+      <div class="detail-item full">
+        <div class="detail-label">Specialization</div>
+        <div class="detail-value">{{ codet[5] }}</div>
+      </div>
+      <div class="detail-item full">
+        <div class="detail-label">Uploaded Documents</div>
+        <div class="detail-value">
+          <a href="{{ codet[7] }}" target="_blank">📎 View Documents</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <form action="/acceptco" method="POST">
+        <input type="hidden" name="email" value="{{ codet[0] }}">
+        <button type="submit" class="btn-accept">✓ Accept</button>
+      </form>
+      <form action="/refuseco" method="POST">
+        <input type="hidden" name="email" value="{{ codet[0] }}">
+        <button type="submit" class="btn-refuse">✕ Refuse</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const photoBase64 = "{{ codet[8] }}";
+  document.getElementById('coachPhoto').src = `data:image/jpeg;base64,${photoBase64}`;
+</script>
+
+</body>
+</html>
